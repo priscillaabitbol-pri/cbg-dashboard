@@ -1356,7 +1356,7 @@ function processarTicketsHub(tickets) {
 function usarTicketsDemoHub() {
   // Usa dados reais do HubSpot (buscados via Claude MCP em 24/05/2026)
   // Para atualizar: abra uma conversa com Claude e peça "atualizar tickets do CBG"
-  var TICKETS_REAIS = [{"id": "45423155278", "subject": "Planserv - Inclusão e-mail para recebimento medição|faturamento", "status": "Em Medicao", "_stage": "980376948", "produto": "Conexa", "content": "Planserv - Inclusão e-mail: andre@vycare.com.br", "modified": "2026-05-20", "link": "https://app.hubspot.com/contacts/20785983/ticket/45423155278"}, {"id": "45182636160", "subject": "Rede Ágil - ajuste na medição e faturamento", "status": "Em Medicao", "_stage": "980376948", "produto": "Conexa", "content": "", "modified": "2026-05-07", "link": "https://app.hubspot.com/contacts/20785983/ticket/45182636160"}];
+  var TICKETS_REAIS = [];
 
   // Filtra stages ignorados (Pausado/Travado e Concluído) antes de processar
   var TICKETS_FILTRADOS = TICKETS_REAIS.filter(function(t){
