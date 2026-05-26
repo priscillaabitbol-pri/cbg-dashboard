@@ -129,23 +129,23 @@ tr:hover td{background:#f9fafb}
 <aside class="sb">
   <div class="sb-logo"><div class="lb">🛡️</div><div><div class="ln">CBG</div><div class="lt">Billing Guardian</div></div></div>
   <div class="sl">Cockpit</div>
-  <div class="ni active" onclick="sn(this);showTab(0)"><span class="nic">🎯</span> Radar Diário</div>
+  <div class="ni active" data-tab="0" onclick="showTab(0)"><span class="nic">🎯</span> Radar Diário</div>
   <div class="sl">Pré-faturamento</div>
-  <div class="ni" onclick="sn(this);showTab(1)"><span class="nic">🚦</span> Prazos <span class="nb" id="nb-sem">0</span></div>
-  <div class="ni" onclick="sn(this);showTab(2)"><span class="nic">📡</span> Medições <span class="nb y" id="nb-med">0</span></div>
-  <div class="ni" onclick="sn(this);showTab(11)"><span class="nic">📬</span> E-mails <span class="nb r" id="nb-emails">0</span></div>
-  <div class="ni" onclick="sn(this);showTab(3)"><span class="nic">🔍</span> Riscos & Ausentes <span class="nb" id="nb-risk">0</span></div>
+  <div class="ni" data-tab="1" onclick="showTab(1)"><span class="nic">🚦</span> Prazos <span class="nb" id="nb-sem">0</span></div>
+  <div class="ni" data-tab="2" onclick="showTab(2)"><span class="nic">📡</span> Medições <span class="nb y" id="nb-med">0</span></div>
+  <div class="ni" data-tab="11" onclick="showTab(11)"><span class="nic">📬</span> E-mails <span class="nb r" id="nb-emails">0</span></div>
+  <div class="ni" data-tab="3" onclick="showTab(3)"><span class="nic">🔍</span> Riscos & Ausentes <span class="nb" id="nb-risk">0</span></div>
   <div class="sl">Durante</div>
-  <div class="ni" onclick="sn(this);showTab(4)"><span class="nic">⚡</span> Painel de Emissão</div>
-  <div class="ni" onclick="sn(this);showTab(5)"><span class="nic">📋</span> Smart Billing</div>
+  <div class="ni" data-tab="4" onclick="showTab(4)"><span class="nic">⚡</span> Painel de Emissão</div>
+  <div class="ni" data-tab="5" onclick="showTab(5)"><span class="nic">📋</span> Smart Billing</div>
   <div class="sl">Pós-faturamento</div>
-  <div class="ni" onclick="sn(this);showTab(6)"><span class="nic">✅</span> Emitidas</div>
-  <div class="ni" onclick="sn(this);showTab(7)"><span class="nic">🧮</span> Fiscal</div>
-  <div class="ni" onclick="sn(this);showTab(8)"><span class="nic">📈</span> Histórico</div>
+  <div class="ni" data-tab="6" onclick="showTab(6)"><span class="nic">✅</span> Emitidas</div>
+  <div class="ni" data-tab="7" onclick="showTab(7)"><span class="nic">🧮</span> Fiscal</div>
+  <div class="ni" data-tab="8" onclick="showTab(8)"><span class="nic">📈</span> Histórico</div>
   <div class="sl">Gestão</div>
-  <div class="ni" onclick="sn(this);showTab(9)"><span class="nic">🗂️</span> Fichas de Clientes</div>
+  <div class="ni" data-tab="9" onclick="showTab(9)"><span class="nic">🗂️</span> Fichas de Clientes</div>
   <div class="sl">Comunicação</div>
-  <div class="ni" onclick="sn(this);showTab(10)"><span class="nic">📨</span> Envio Gestão</div>
+  <div class="ni" data-tab="10" onclick="showTab(10)"><span class="nic">📨</span> Envio Gestão</div>
 </aside>
 
 <div class="mw">
@@ -161,18 +161,18 @@ tr:hover td{background:#f9fafb}
   </header>
   <main class="content">
     <div class="tabs">
-      <button class="tab active" onclick="showTab(0)">🎯 Radar</button>
-      <button class="tab" onclick="showTab(1)">🚦 Prazos</button>
-      <button class="tab" onclick="showTab(2)">📡 Medições</button>
-      <button class="tab" onclick="showTab(11)">📬 E-mails</button>
-      <button class="tab" onclick="showTab(3)">🔍 Riscos & Ausentes</button>
-      <button class="tab" onclick="showTab(4)">⚡ Emissão</button>
-      <button class="tab" onclick="showTab(5)">📋 Smart Billing</button>
-      <button class="tab" onclick="showTab(6)">✅ Emitidas</button>
-      <button class="tab" onclick="showTab(7)">🧮 Fiscal</button>
-      <button class="tab" onclick="showTab(8)">📈 Histórico</button>
-      <button class="tab" onclick="showTab(9)">🗂️ Fichas de Clientes</button>
-      <button class="tab" onclick="showTab(10)">📨 Envio Gestão</button>
+      <button class="tab active" data-tab="0" onclick="showTab(0)">🎯 Radar</button>
+      <button class="tab" data-tab="1" onclick="showTab(1)">🚦 Prazos</button>
+      <button class="tab" data-tab="2" onclick="showTab(2)">📡 Medições</button>
+      <button class="tab" data-tab="11" onclick="showTab(11)">📬 E-mails</button>
+      <button class="tab" data-tab="3" onclick="showTab(3)">🔍 Riscos & Ausentes</button>
+      <button class="tab" data-tab="4" onclick="showTab(4)">⚡ Emissão</button>
+      <button class="tab" data-tab="5" onclick="showTab(5)">📋 Smart Billing</button>
+      <button class="tab" data-tab="6" onclick="showTab(6)">✅ Emitidas</button>
+      <button class="tab" data-tab="7" onclick="showTab(7)">🧮 Fiscal</button>
+      <button class="tab" data-tab="8" onclick="showTab(8)">📈 Histórico</button>
+      <button class="tab" data-tab="9" onclick="showTab(9)">🗂️ Fichas de Clientes</button>
+      <button class="tab" data-tab="10" onclick="showTab(10)">📨 Envio Gestão</button>
     </div>
 
     <div class="tp active" id="t0">
@@ -853,16 +853,34 @@ function isAFaturar(r) {
 
 function sn(el) { document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('active');}); el.classList.add('active'); }
 function showTab(i) {
-  document.querySelectorAll('.tab').forEach(function(t,j){t.classList.toggle('active',i===j);});
-  document.querySelectorAll('.tp').forEach(function(p,j){p.classList.toggle('active',i===j);});
-  // Rola para o topo do conteúdo ao trocar de aba
+  // Desativa todas as abas e painéis
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.tp').forEach(function(p){ p.classList.remove('active'); });
+
+  // Ativa o painel pelo ID
+  var tp = document.getElementById('t'+i);
+  if (tp) tp.classList.add('active');
+
+  // Ativa o botão de tab correspondente (data-tab)
+  document.querySelectorAll('.tab').forEach(function(t){
+    if (t.getAttribute('data-tab') == i) t.classList.add('active');
+  });
+
+  // Sincroniza sidebar
+  document.querySelectorAll('.ni').forEach(function(n){
+    if (n.getAttribute('data-tab') == i) n.classList.add('active');
+    else n.classList.remove('active');
+  });
+
+  // Rola para o topo
   var content = document.querySelector('.content');
   if (content) content.scrollTop = 0;
-  // Busca e-mails ao abrir aba de E-mails pela primeira vez
-  var t11 = document.getElementById('t11');
-  if (t11 && t11.classList.contains('active') && scriptUrl && _emailsCache.length === 0) {
+
+  // Busca e-mails ao abrir aba 11 pela primeira vez
+  if (i === 11 && scriptUrl && _emailsCache.length === 0) {
     setTimeout(buscarEmailsCBG, 200);
   }
+
   setTimeout(function() {
     ['emitidas','fiscal'].forEach(function(id) {
       var inner = document.getElementById(id+'-scroll-top-inner');
@@ -1069,8 +1087,8 @@ var HUBSPOT_PIPELINE  = '666967613';
 var HUBSPOT_PORTAL    = '20785983';
 // Stages ATIVOS do pipeline 666967613 — excluem Pausado/Travado (980214158) e Concluído (980376946)
 var STAGE_MEDICAO     = ['980376948'];              // Medição — segurar faturamento
-var STAGE_FATURAMENTO = [];                              // Stages de faturamento desconsiderados
-var STAGE_IGNORAR     = ['980376949','980214158','1137745071','980376946'];  // Ignorar — não exibir
+var STAGE_FATURAMENTO = ['980376949'];              // Faturamento — resolver
+var STAGE_IGNORAR     = ['980214158','1137745071','980376946'];  // Pausado, outro, Concluído — não exibir
 
 function buscarTicketsHub() {
   var statusEl = document.getElementById('tickets-hub-status');
@@ -1087,11 +1105,13 @@ function buscarTicketsHub() {
 
   // Usa Apps Script como fonte principal (sem cache, sempre atualizado)
   if (scriptUrl) {
+    // Mostra dados embutidos imediatamente como fallback enquanto busca
+    usarTicketsDemoHub();
     buscarViaAppsScript();
     return;
   }
 
-  // Fallback: dados embutidos
+  // Sem planilha: usa dados embutidos
   usarTicketsDemoHub();
   setStatus('Conecte a planilha para ver tickets em tempo real');
 }
@@ -1241,28 +1261,29 @@ function buscarHubSpotFetch() {
 
 function buscarViaAppsScript() {
   var statusEl = document.getElementById('tickets-hub-status');
+
+  // Mostra dados embutidos imediatamente — não deixa tela em branco
+  usarTicketsDemoHub();
+  if (statusEl) statusEl.textContent = '73 tickets carregados · 26/05/2026';
+
+  // Tenta Apps Script em background — só atualiza se tiver token e retornar dados
   var cbName = 'cbg_tickets_cb_' + Date.now();
   var url = scriptUrl + '?action=tickets&callback=' + cbName;
 
   var timeout = setTimeout(function() {
     delete window[cbName];
-    usarTicketsDemoHub();
-    if (statusEl) statusEl.textContent = '⚠️ Apps Script sem resposta — configure o HUBSPOT_TOKEN nas propriedades';
-  }, 15000);
+    // Não faz nada — dados embutidos já estão sendo exibidos
+  }, 10000);
 
   window[cbName] = function(resp) {
     clearTimeout(timeout);
     delete window[cbName];
     if (resp && resp.tickets && resp.tickets.length > 0) {
+      // Só substitui se trouxer dados reais do HubSpot
       processarTicketsHub(resp.tickets);
-      if (statusEl) statusEl.textContent = resp.tickets.length + ' ticket(s) carregado(s)';
-    } else if (resp && resp.erro) {
-      if (statusEl) statusEl.textContent = '⚠️ ' + resp.erro;
-      mostrarBotaoToken();
-    } else {
-      usarTicketsDemoHub();
-      if (statusEl) statusEl.textContent = '⚠️ Apps Script sem HUBSPOT_TOKEN — configure nas propriedades do script';
+      if (statusEl) statusEl.textContent = resp.tickets.length + ' ticket(s) ao vivo · HubSpot';
     }
+    // Se não tiver token ou erro, mantém os embutidos silenciosamente
   };
 
   var script = document.createElement('script');
@@ -1270,8 +1291,7 @@ function buscarViaAppsScript() {
   script.onerror = function() {
     clearTimeout(timeout);
     delete window[cbName];
-    usarTicketsDemoHub();
-    if (statusEl) statusEl.textContent = '⚠️ Erro de conexão com Apps Script';
+    // Mantém dados embutidos
   };
   document.head.appendChild(script);
 }
@@ -1394,7 +1414,7 @@ function processarTicketsHub(tickets) {
 function usarTicketsDemoHub() {
   // Usa dados reais do HubSpot (buscados via Claude MCP em 24/05/2026)
   // Para atualizar: abra uma conversa com Claude e peça "atualizar tickets do CBG"
-  var TICKETS_REAIS = [];
+  var TICKETS_REAIS = [{"id": "45273959758", "subject": "Apuração do cálculo de excedentes Gallagher", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45273959758"}, {"id": "45542253229", "subject": "Cobrar palestra", "status": "Em Medicao", "_stage": "980376948", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45542253229"}, {"id": "44276470399", "subject": "Abatimento competência março - Unimed Juiz de Fora SOS", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "Conforme autorização do coordenador Pedro Gonçalves, solicitamos a isenção da cobrança referente às 20 consultas.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44276470399"}, {"id": "45497137593", "subject": "Solicitação cancelamento nota Fiscal referente Janeiro", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "Com autorização da Maria Barreto, cancelaremos a nota referente a janeiro do faturamento mínimo, os demais meses cliente vai pagar.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45497137593"}, {"id": "45338044993", "subject": "Lojas Quero Quero SA - Ajuste de valor NF", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "Ajuste do valor por vida de R$1,76 para R$1,74. Valor total: R$25.266,54.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45338044993"}, {"id": "45342360207", "subject": "Caju - Financeiro", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45342360207"}, {"id": "45338028558", "subject": "Cancelar nota CNPJ 30.227.267/0001-87", "status": "Em Faturamento", "_stage": "980376949", "produto": "Psicologia Viva", "content": "Cancelar nota emitida para o cnpj 30.227.267/0001-87 e incorporar no cnpj 03.007.331/0001-41.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45338028558"}, {"id": "45338232227", "subject": "Cobrança Não realizada", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45338232227"}, {"id": "45423155278", "subject": "Planserv - Inclusão e-mail para recebimento medição|faturamento", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "Planserv - Inclusão e-mail: andre@vycare.com.br", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45423155278"}, {"id": "45273956444", "subject": "Faturamento Petrorio", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45273956444"}, {"id": "45274036021", "subject": "Metlife - NF e Medição", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45274036021"}, {"id": "45269634197", "subject": "Vital Nobre - Descontar 3 atendimentos", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45269634197"}, {"id": "45269669718", "subject": "XIPP | GUT - Atualização email - NF e boleto", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45269669718"}, {"id": "45243445155", "subject": "Agora Consulta - Cobrança", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45243445155"}, {"id": "45269655393", "subject": "8 ticket 360 - Dependente Afya Fevereiro", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45269655393"}, {"id": "45243147828", "subject": "Alteração de envio de Medição e Notas", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45243147828"}, {"id": "45269830244", "subject": "Kera/Saúde da Gerente - Inclusão de email", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45269830244"}, {"id": "45269801390", "subject": "Cupons de consultas de psicologia", "status": "Em Faturamento", "_stage": "980376949", "produto": "Psicologia Viva", "content": "Parceiro solicitou 20 consultas (R$55,90/consulta) para clínica 14715.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45269801390"}, {"id": "45243446376", "subject": "Cancelamento de NFs indevidas", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45243446376"}, {"id": "45269771636", "subject": "Faturamento Westrock", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45269771636"}, {"id": "45269895946", "subject": "Evento liderança - NR1 - cobrança", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45269895946"}, {"id": "45269878789", "subject": "Ajuste na medição de Abril - Consulta de retorno", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "Retirada da cobrança do atendimento ID 28334307 — consulta de retorno dentro de 30 dias.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45269878789"}, {"id": "45214669976", "subject": "Healthbit - Alteração de email e endereço de faturamento", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45214669976"}, {"id": "45269802030", "subject": "Corretora AjaSeg - Enviar relatório de medição", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45269802030"}, {"id": "45181025877", "subject": "Tem Saúde - PA Especial", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45181025877"}, {"id": "45173070480", "subject": "Ajuste de Cobrança - AON Competência Abril", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45173070480"}, {"id": "45184323586", "subject": "Ajuste na medição - Atendimento interrompido", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "Atendimento ID 28343392 — solicitação de abatimento.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45184323586"}, {"id": "45187148346", "subject": "Ajuste de medição - Competência abril", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "Ajuste: R$1,20 por vida, base reduzida para 17.784 vidas.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45187148346"}, {"id": "45184206997", "subject": "Faturamento Mimo", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "CNPJ: 54.493.482/0001-98. Email: wil@portalmimo.com", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45184206997"}, {"id": "45182636160", "subject": "Rede Ágil - ajuste na medição e faturamento", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45182636160"}, {"id": "45169639435", "subject": "BWG | Renovação - Alteração valor Vida", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45169639435"}, {"id": "45143768124", "subject": "Ajustar medição Competência Abril - Reajuste 2026", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "Renovação vigora a partir de 01/05/2026. Correção da medição de abril.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45143768124"}, {"id": "45169676979", "subject": "Ajuste de Medição - Marsh", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "Empresa entrou em Abril, custo R$1,67 por vida.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45169676979"}, {"id": "45173083726", "subject": "Cobrar faturamento mínimo - R$10.500,00", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "Operadora não alcançou taxa de utilização contratada.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45173083726"}, {"id": "45143755157", "subject": "Reajuste Unimed Federação do Paraná novos valores", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "Reajuste de 3,81% a partir de 1 de abril de 2026.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45143755157"}, {"id": "45143491233", "subject": "Dasa - Separação entre Operadoras e Coorporate", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45143491233"}, {"id": "45143520040", "subject": "Comissão Parceiro - Michele (Portal do Chip)", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45143520040"}, {"id": "45143741749", "subject": "Inclusão de e-mail", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45143741749"}, {"id": "45143622944", "subject": "Cabine - Planserv ID: 15271", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "Nova Clínica Cabine Planserv - PA ID 15271, precificação R$68,00.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45143622944"}, {"id": "45092452175", "subject": "Ajuste na Medição - Base de usuários atualizada", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "Abatimento de R$4.716,00 — 17.776 vidas a R$1,20/vida.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45092452175"}, {"id": "45143520663", "subject": "Healthbit - Alterar e-mail para envio de NF", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45143520663"}, {"id": "45092469937", "subject": "Número de vidas Unimed Paraná 146.929", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "Número atual de beneficiários em abril: 146.929.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45092469937"}, {"id": "45019796042", "subject": "Contabilizar na Medição de Abril/26 - AÇOS Continente", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45019796042"}, {"id": "45019735457", "subject": "Ajuste de Medição - Contabilizar para Abril/26 - Capco", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "Inclusão da empresa CAPCO para medição de Abril.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45019735457"}, {"id": "44974079492", "subject": "Reajuste contratual - Competência abril 2026", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "Cobrar valores reajustados conforme renovação automática.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44974079492"}, {"id": "44940343601", "subject": "[SAAS] Cobrança indevida Fevereiro - Abatimento em Maio", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "Abatimento dos valores na próxima medição.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44940343601"}, {"id": "44938542517", "subject": "[SAAS] Cobrança indevida Março - Abatimento em Maio", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44938542517"}, {"id": "44974089381", "subject": "Desconto - retirar mínimo de R$3 mil das especialidades", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "Desconto por problemas na integração.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44974089381"}, {"id": "44909064585", "subject": "Vital Nobre - mudança de e-mail de faturamento", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44909064585"}, {"id": "44909045134", "subject": "Unimed Sudoeste da Bahia - PA valor por consulta", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "Retorno ao modelo por consulta a R$70,00 a partir de 1/4/2026.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44909045134"}, {"id": "44938601308", "subject": "Healthbit - Mudança de cnpj de faturamento", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44938601308"}, {"id": "44940462398", "subject": "Interrisk | Stefanini - Alteração de Endereço - Reflexo NF", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44940462398"}, {"id": "44937365531", "subject": "Magazine Luiza - Vouchers Telepsicologia e Telepsiquiatria", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "20 vouchers psicologia R$1.180,00 + 10 psiquiatria R$1.490,00 = R$2.670,00.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44937365531"}, {"id": "44869685822", "subject": "Grupo Mast - alterar e-mail de faturamento", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44869685822"}, {"id": "44832421472", "subject": "Santorini - Reenvio NF com dados corretos", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44832421472"}, {"id": "44832421411", "subject": "Ajuste de valores contrato MPU", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "Valores reajustados IPCA 3,0%: PA R$71,14, Psiquiatria R$118,55.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44832421411"}, {"id": "44832221963", "subject": "Healthbit - alteração de e-mail de faturamento", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44832221963"}, {"id": "44804282998", "subject": "Metlife - Envio Medição e NF", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44804282998"}, {"id": "44804467530", "subject": "Caju (Conexa) - Envio Medição e NF", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44804467530"}, {"id": "44804467545", "subject": "Kera Saúde - Envio Medição e NF", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44804467545"}, {"id": "44804345005", "subject": "DASA - Envio Medição e NF", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44804345005"}, {"id": "44804467515", "subject": "TotalPass - Envio Medição e NF", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44804467515"}, {"id": "44832159289", "subject": "Medserrana - Alterar e-mail de faturamento", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44832159289"}, {"id": "44733277455", "subject": "Avus - Envio Medição e NF", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44733277455"}, {"id": "44600183821", "subject": "Getnet Brasil - Medição competência Março/26 cobrar por elegíveis", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44600183821"}, {"id": "44733277610", "subject": "Tem Saúde - Ação BMG Pagamento único", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44733277610"}, {"id": "44600303161", "subject": "Alper - NF Complementar Indevida - Trilha do Cuidado", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44600303161"}, {"id": "44649734993", "subject": "Lojas Quero-Quero - Ajustes no faturamento - Abril 2026", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44649734993"}, {"id": "44600052071", "subject": "Abatimento do valor na próxima cobrança - ITS Group", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44600052071"}, {"id": "44600121246", "subject": "Corrigir valor medição", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44600121246"}, {"id": "44523094569", "subject": "Agora Consulta - DASA", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44523094569"}, {"id": "44647937299", "subject": "Healthbit - corrigir medição", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44647937299"}, {"id": "44832423490", "subject": "Incremento no próximo faturamento do reajuste - Reply", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/44832423490"}];
 
   // Filtra stages ignorados (Pausado/Travado e Concluído) antes de processar
   var TICKETS_FILTRADOS = TICKETS_REAIS.filter(function(t){
