@@ -1393,7 +1393,7 @@ function processarTicketsHub(tickets) {
 function usarTicketsDemoHub() {
   // Usa dados reais do HubSpot (buscados via Claude MCP em 24/05/2026)
   // Para atualizar: abra uma conversa com Claude e peça "atualizar tickets do CBG"
-  var TICKETS_REAIS = [{"id": "45542253229", "subject": "Cobrar palestra", "status": "Em Medicao", "_stage": "980376948", "produto": "Conexa", "content": "", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45542253229"}];
+  var TICKETS_REAIS = [{"id": "45542253229", "subject": "Cobrar palestra", "status": "Em Faturamento", "_stage": "980376949", "produto": "Conexa", "content": "Valor inserido na máscara de faturamento. Subirá para a planilha nova com os demais clientes da competência de maio.", "modified": "2026-05-26", "link": "https://app.hubspot.com/contacts/20785983/ticket/45542253229"}];
 
   // Filtra stages ignorados (Pausado/Travado e Concluído) antes de processar
   var TICKETS_FILTRADOS = TICKETS_REAIS.filter(function(t){
@@ -3091,19 +3091,49 @@ var TIPO_CONFIG = {
 };
 
 function buscarEmailsCBG() {
-  // Apps Script bloqueado pelo Google Workspace da Conexa (acesso restrito ao domínio)
-  // E-mails são exibidos via consulta manual no Claude
+  if (!scriptUrl) {
+    document.getElementById('emails-lista').innerHTML = '<div style="text-align:center;padding:40px;color:var(--mu)">⚠️ Conecte a planilha para buscar e-mails.</div>';
+    return;
+  }
   var statusEl = document.getElementById('emails-status');
   var listaEl  = document.getElementById('emails-lista');
-  if (statusEl) statusEl.textContent = 'Atualizado via Claude';
-  if (listaEl && _emailsCache.length === 0) {
-    listaEl.innerHTML = '<div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:20px 24px;color:#0369a1;font-size:13px;line-height:1.8">'
-      + '<div style="font-weight:700;font-size:14px;margin-bottom:8px">📬 Como ver seus e-mails críticos</div>'
-      + 'O acesso direto ao Gmail foi bloqueado pela política do Google Workspace da Conexa.<br><br>'
-      + 'Para ver seus e-mails não lidos de faturamento, diga ao Claude:<br>'
-      + '<strong style="background:#e0f2fe;padding:3px 8px;border-radius:5px;display:inline-block;margin-top:6px">"Mostrar e-mails não lidos de faturamento"</strong>'
-      + '</div>';
-  }
+  if (statusEl) statusEl.textContent = 'Buscando...';
+  if (listaEl)  listaEl.innerHTML = '<div style="text-align:center;padding:40px;color:var(--mu)">🔄 Buscando e-mails não lidos...</div>';
+
+  var cbName = 'cbgEmailsCb_' + Date.now();
+  var url = scriptUrl + (scriptUrl.indexOf('?') >= 0 ? '&' : '?') + 'action=emails&callback=' + cbName + '&t=' + Date.now();
+
+  var timeout = setTimeout(function() {
+    delete window[cbName];
+    if (statusEl) statusEl.textContent = 'Sem resposta do Apps Script';
+    if (listaEl)  listaEl.innerHTML = '<div style="text-align:center;padding:40px;color:var(--mu)">⚠️ Sem resposta. Verifique se o Apps Script foi deployado com nova versão.</div>';
+  }, 15000);
+
+  window[cbName] = function(data) {
+    clearTimeout(timeout);
+    delete window[cbName];
+    if (data && data.erro) {
+      if (statusEl) statusEl.textContent = 'Erro: ' + data.erro;
+      if (listaEl)  listaEl.innerHTML = '<div style="text-align:center;padding:40px;color:#dc2626">❌ ' + data.erro + '</div>';
+      return;
+    }
+    _emailsCache = (data && data.emails) || [];
+    var badge = document.getElementById('nb-emails');
+    if (badge) badge.textContent = _emailsCache.length;
+    var t = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+    if (statusEl) statusEl.textContent = _emailsCache.length + ' não lidos · atualizado ' + t;
+    renderEmailsLista(_emailsCache);
+  };
+
+  var s = document.createElement('script');
+  s.src = url;
+  s.onerror = function() {
+    clearTimeout(timeout);
+    delete window[cbName];
+    if (statusEl) statusEl.textContent = 'Erro de conexão';
+    if (listaEl)  listaEl.innerHTML = '<div style="text-align:center;padding:40px;color:#dc2626">❌ Erro ao conectar com Apps Script.</div>';
+  };
+  document.head.appendChild(s);
 }
 
 window.cbgEmailsCb = function(data) {
