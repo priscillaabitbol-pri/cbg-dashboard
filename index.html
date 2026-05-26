@@ -2956,7 +2956,7 @@ function aplicarDados(novasAbas) {
   // Busca tickets automaticamente ao conectar/atualizar planilha
   if (scriptUrl) {
     setTimeout(buscarTicketsHub, 800);
-    setTimeout(buscarEmailsCBG, 1500);
+    // emails já chegam via __emails embutido — não precisa de chamada separada
     // Auto-refresh tickets a cada 5 minutos
     if (window._ticketsTimer) clearInterval(window._ticketsTimer);
     window._ticketsTimer = setInterval(function(){
