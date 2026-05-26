@@ -2781,29 +2781,9 @@ function setStatus(msg, tipo) {
 }
 
 function fetchScript(url, callback) {
-  var sep = url.indexOf('?') >= 0 ? '&' : '?';
-  var urlFresh = url + sep + 't=' + Date.now();
-  
-  // Usa XMLHttpRequest com timeout maior
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', urlFresh, true);
-  xhr.timeout = 30000; // 30 segundos
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-      try {
-        var data = JSON.parse(xhr.responseText);
-        callback(null, data);
-      } catch(e) {
-        // Tenta JSONP como fallback
-        tentarJSONP(url, callback);
-      }
-    } else {
-      tentarJSONP(url, callback);
-    }
-  };
-  xhr.ontimeout = function() { tentarJSONP(url, callback); };
-  xhr.onerror = function() { tentarJSONP(url, callback); };
-  xhr.send();
+  // Apps Script da Conexa requer autenticação corporativa — XHR retorna 302
+  // Usa sempre JSONP (funciona no contexto do browser autenticado)
+  tentarJSONP(url, callback);
 }
 
 function tentarJSONP(url, callback) {
