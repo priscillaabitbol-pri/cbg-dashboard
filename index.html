@@ -3615,45 +3615,82 @@ function enviarEmailGestao() {
     return;
   }
 
+  // Gera o preview primeiro para garantir que está atualizado
+  gerarPreviewGestao();
+
+  // Captura o HTML do preview gerado
+  var previewEl = document.getElementById('gestao-preview');
+  var htmlBody = previewEl ? previewEl.innerHTML : '';
+  if (!htmlBody) {
+    status.style.display = 'block';
+    status.style.background = '#fee2e2'; status.style.color = '#991b1b';
+    status.textContent = 'Clique em "Atualizar preview" primeiro.';
+    return;
+  }
+
   btn.disabled = true; btn.textContent = '⏳ Enviando...';
   status.style.display = 'block';
   status.style.background = '#eef2ff'; status.style.color = '#4338ca';
-  status.textContent = 'Gerando resumo e enviando...';
+  status.textContent = 'Enviando...';
 
-  try { localStorage.setItem('cbg_email_gestao', email); } catch(e) {}
+  // Envia via Apps Script usando fetch (POST com htmlBody)
+  var url = scriptUrl + '?action=enviarEmailHtml&email=' + encodeURIComponent(email) + '&t=' + Date.now();
 
-  var cbName = 'cbg_gestao_cb_' + Date.now();
-  var timeout = setTimeout(function() {
-    delete window[cbName];
-    btn.disabled = false; btn.textContent = '📤 Enviar para meu e-mail';
-    status.style.background = '#fee2e2'; status.style.color = '#991b1b';
-    status.textContent = 'Tempo esgotado. Verifique se o Apps Script foi reimplantado.';
-  }, 20000);
-
-  window[cbName] = function(resp) {
-    clearTimeout(timeout); delete window[cbName];
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: 'htmlBody=' + encodeURIComponent(htmlBody)
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(resp) {
     btn.disabled = false;
     if (resp && resp.ok) {
       btn.textContent = '✅ Enviado!';
       status.style.background = '#dcfce7'; status.style.color = '#166534';
-      status.textContent = '✅ E-mail enviado! Verifique sua caixa de entrada e encaminhe para a equipe.';
-      setTimeout(function(){ btn.textContent = '📤 Enviar para meu e-mail'; }, 3000);
+      status.textContent = '✅ E-mail enviado com o conteúdo do preview!';
+      setTimeout(function(){ btn.textContent = '📤 Enviar'; }, 3000);
     } else {
-      btn.textContent = '📤 Enviar para meu e-mail';
+      btn.textContent = '📤 Enviar';
       status.style.background = '#fee2e2'; status.style.color = '#991b1b';
       status.textContent = 'Erro: ' + (resp && resp.erro ? resp.erro : 'tente novamente.');
     }
-  };
+  })
+  .catch(function() {
+    // CORS bloqueado — usa JSONP com htmlBody no parâmetro
+    var cbName = 'cbg_gestao_cb_' + Date.now();
+    var timeout = setTimeout(function() {
+      delete window[cbName];
+      btn.disabled = false; btn.textContent = '📤 Enviar';
+      status.style.background = '#fee2e2'; status.style.color = '#991b1b';
+      status.textContent = 'Tempo esgotado. Verifique se o Apps Script foi reimplantado.';
+    }, 25000);
 
-  var script = document.createElement('script');
-  script.src = scriptUrl + '?action=enviarEmail&email=' + encodeURIComponent(email) + '&callback=' + cbName;
-  script.onerror = function() {
-    clearTimeout(timeout); delete window[cbName];
-    btn.disabled = false; btn.textContent = '📤 Enviar para meu e-mail';
-    status.style.background = '#fee2e2'; status.style.color = '#991b1b';
-    status.textContent = 'Erro de conexão com o Apps Script.';
-  };
-  document.head.appendChild(script);
+    window[cbName] = function(resp) {
+      clearTimeout(timeout); delete window[cbName];
+      btn.disabled = false;
+      if (resp && resp.ok) {
+        btn.textContent = '✅ Enviado!';
+        status.style.background = '#dcfce7'; status.style.color = '#166534';
+        status.textContent = '✅ E-mail enviado com o conteúdo do preview!';
+        setTimeout(function(){ btn.textContent = '📤 Enviar'; }, 3000);
+      } else {
+        btn.textContent = '📤 Enviar';
+        status.style.background = '#fee2e2'; status.style.color = '#991b1b';
+        status.textContent = 'Erro: ' + (resp && resp.erro ? resp.erro : 'tente novamente.');
+      }
+    };
+
+    // Envia htmlBody comprimido via parâmetro GET (limitado mas funciona para emails médios)
+    var script = document.createElement('script');
+    script.src = scriptUrl + '?action=enviarEmailHtml&email=' + encodeURIComponent(email) + '&htmlBody=' + encodeURIComponent(htmlBody) + '&callback=' + cbName;
+    script.onerror = function() {
+      clearTimeout(timeout); delete window[cbName];
+      btn.disabled = false; btn.textContent = '📤 Enviar';
+      status.style.background = '#fee2e2'; status.style.color = '#991b1b';
+      status.textContent = 'Erro de conexão com o Apps Script.';
+    };
+    document.head.appendChild(script);
+  });
 }
 
 // Carrega e-mail salvo ao abrir a aba
