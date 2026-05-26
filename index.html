@@ -3100,19 +3100,15 @@ function buscarEmailsCBG() {
   if (statusEl) statusEl.textContent = 'Buscando...';
   if (listaEl)  listaEl.innerHTML = '<div style="text-align:center;padding:40px;color:var(--mu)">🔄 Buscando e-mails não lidos...</div>';
 
-  var cbName = 'cbgEmailsCb_' + Date.now();
-  var url = scriptUrl + (scriptUrl.indexOf('?') >= 0 ? '&' : '?') + 'action=emails&callback=' + cbName + '&t=' + Date.now();
+  var url = scriptUrl + (scriptUrl.indexOf('?') >= 0 ? '&' : '?') + 'action=emails&t=' + Date.now();
 
-  var timeout = setTimeout(function() {
-    delete window[cbName];
-    if (statusEl) statusEl.textContent = 'Sem resposta do Apps Script';
-    if (listaEl)  listaEl.innerHTML = '<div style="text-align:center;padding:40px;color:var(--mu)">⚠️ Sem resposta. Verifique se o Apps Script foi deployado com nova versão.</div>';
-  }, 15000);
-
-  window[cbName] = function(data) {
-    clearTimeout(timeout);
-    delete window[cbName];
-    if (data && data.erro) {
+  fetchScript(url, function(err, data) {
+    if (err || !data) {
+      if (statusEl) statusEl.textContent = 'Erro de conexão';
+      if (listaEl)  listaEl.innerHTML = '<div style="text-align:center;padding:40px;color:#dc2626">❌ ' + (err || 'Sem resposta') + '</div>';
+      return;
+    }
+    if (data.erro) {
       if (statusEl) statusEl.textContent = 'Erro: ' + data.erro;
       if (listaEl)  listaEl.innerHTML = '<div style="text-align:center;padding:40px;color:#dc2626">❌ ' + data.erro + '</div>';
       return;
@@ -3123,17 +3119,7 @@ function buscarEmailsCBG() {
     var t = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
     if (statusEl) statusEl.textContent = _emailsCache.length + ' não lidos · atualizado ' + t;
     renderEmailsLista(_emailsCache);
-  };
-
-  var s = document.createElement('script');
-  s.src = url;
-  s.onerror = function() {
-    clearTimeout(timeout);
-    delete window[cbName];
-    if (statusEl) statusEl.textContent = 'Erro de conexão';
-    if (listaEl)  listaEl.innerHTML = '<div style="text-align:center;padding:40px;color:#dc2626">❌ Erro ao conectar com Apps Script.</div>';
-  };
-  document.head.appendChild(s);
+  });
 }
 
 window.cbgEmailsCb = function(data) {
