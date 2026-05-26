@@ -133,6 +133,7 @@ tr:hover td{background:#f9fafb}
   <div class="sl">Pré-faturamento</div>
   <div class="ni" onclick="sn(this);showTab(1)"><span class="nic">🚦</span> Prazos <span class="nb" id="nb-sem">0</span></div>
   <div class="ni" onclick="sn(this);showTab(2)"><span class="nic">📡</span> Medições <span class="nb y" id="nb-med">0</span></div>
+  <div class="ni" onclick="sn(this);showTab(11)"><span class="nic">📬</span> E-mails <span class="nb r" id="nb-emails">0</span></div>
   <div class="ni" onclick="sn(this);showTab(3)"><span class="nic">🔍</span> Riscos & Ausentes <span class="nb" id="nb-risk">0</span></div>
   <div class="sl">Durante</div>
   <div class="ni" onclick="sn(this);showTab(4)"><span class="nic">⚡</span> Painel de Emissão</div>
@@ -163,6 +164,7 @@ tr:hover td{background:#f9fafb}
       <button class="tab active" onclick="showTab(0)">🎯 Radar</button>
       <button class="tab" onclick="showTab(1)">🚦 Prazos</button>
       <button class="tab" onclick="showTab(2)">📡 Medições</button>
+      <button class="tab" onclick="showTab(11)">📬 E-mails</button>
       <button class="tab" onclick="showTab(3)">🔍 Riscos & Ausentes</button>
       <button class="tab" onclick="showTab(4)">⚡ Emissão</button>
       <button class="tab" onclick="showTab(5)">📋 Smart Billing</button>
@@ -520,6 +522,37 @@ tr:hover td{background:#f9fafb}
       </div>
     </div>
 
+    <!-- ── T11 E-MAILS FATURAMENTO ─────────────────────────── -->
+    <div class="tp" id="t11">
+      <div class="aviso">📬 <strong>E-mails de Faturamento:</strong> Mostra apenas e-mails <strong>não lidos</strong> das suas caixas relacionados a medição, faturamento, ajustes, PO, GR e aprovações. Quando você marcar como lido no Gmail, some automaticamente no próximo refresh.</div>
+
+      <div class="sh" style="margin-bottom:16px">
+        <div class="st">📬 E-mails críticos não lidos</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span id="emails-status" style="font-size:11px;color:var(--mu)">Carregando...</span>
+          <button onclick="buscarEmailsCBG()" style="padding:5px 12px;border-radius:6px;background:#f1f5f9;border:1px solid var(--bor);font-size:11px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;color:var(--txt)">🔄 Atualizar</button>
+        </div>
+      </div>
+
+      <!-- Filtro por tipo -->
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px" id="email-filtros">
+        <button class="email-filtro active" onclick="filtrarEmails('todos',this)" style="padding:5px 12px;border-radius:20px;border:1px solid var(--bor);background:var(--acc);color:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">Todos</button>
+        <button class="email-filtro" onclick="filtrarEmails('PO',this)" style="padding:5px 12px;border-radius:20px;border:1px solid var(--bor);background:var(--sur);color:var(--txt);font-size:11px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">📋 PO</button>
+        <button class="email-filtro" onclick="filtrarEmails('GR',this)" style="padding:5px 12px;border-radius:20px;border:1px solid var(--bor);background:var(--sur);color:var(--txt);font-size:11px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">📦 GR</button>
+        <button class="email-filtro" onclick="filtrarEmails('Aprovação',this)" style="padding:5px 12px;border-radius:20px;border:1px solid var(--bor);background:var(--sur);color:var(--txt);font-size:11px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">✅ Aprovação</button>
+        <button class="email-filtro" onclick="filtrarEmails('Ajuste',this)" style="padding:5px 12px;border-radius:20px;border:1px solid var(--bor);background:var(--sur);color:var(--txt);font-size:11px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">🔧 Ajuste</button>
+        <button class="email-filtro" onclick="filtrarEmails('Cancelamento',this)" style="padding:5px 12px;border-radius:20px;border:1px solid var(--bor);background:var(--sur);color:var(--txt);font-size:11px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">❌ Cancelamento</button>
+        <button class="email-filtro" onclick="filtrarEmails('Boleto',this)" style="padding:5px 12px;border-radius:20px;border:1px solid var(--bor);background:var(--sur);color:var(--txt);font-size:11px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">💰 Boleto</button>
+        <button class="email-filtro" onclick="filtrarEmails('Medição',this)" style="padding:5px 12px;border-radius:20px;border:1px solid var(--bor);background:var(--sur);color:var(--txt);font-size:11px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">📡 Medição</button>
+        <button class="email-filtro" onclick="filtrarEmails('Nota Fiscal',this)" style="padding:5px 12px;border-radius:20px;border:1px solid var(--bor);background:var(--sur);color:var(--txt);font-size:11px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">🧾 Nota Fiscal</button>
+        <button class="email-filtro" onclick="filtrarEmails('Contrato',this)" style="padding:5px 12px;border-radius:20px;border:1px solid var(--bor);background:var(--sur);color:var(--txt);font-size:11px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">📄 Contrato</button>
+      </div>
+
+      <div id="emails-lista">
+        <div style="text-align:center;padding:40px;color:var(--mu)">🔄 Buscando e-mails...</div>
+      </div>
+    </div>
+
   </main>
 </div>
 
@@ -825,6 +858,11 @@ function showTab(i) {
   // Rola para o topo do conteúdo ao trocar de aba
   var content = document.querySelector('.content');
   if (content) content.scrollTop = 0;
+  // Busca e-mails ao abrir aba de E-mails pela primeira vez
+  var t11 = document.getElementById('t11');
+  if (t11 && t11.classList.contains('active') && scriptUrl && _emailsCache.length === 0) {
+    setTimeout(buscarEmailsCBG, 200);
+  }
   setTimeout(function() {
     ['emitidas','fiscal'].forEach(function(id) {
       var inner = document.getElementById(id+'-scroll-top-inner');
@@ -2939,6 +2977,7 @@ function aplicarDados(novasAbas) {
   // Busca tickets automaticamente ao conectar/atualizar planilha
   if (scriptUrl) {
     setTimeout(buscarTicketsHub, 800);
+    setTimeout(buscarEmailsCBG, 1500);
     // Auto-refresh tickets a cada 5 minutos
     if (window._ticketsTimer) clearInterval(window._ticketsTimer);
     window._ticketsTimer = setInterval(function(){
@@ -3033,6 +3072,107 @@ function tentarCarregarSalvo() {
   } catch(e) {}
 }
 // ── FIM CONEXÃO ───────────────────────────────────────────────────────────────
+
+// ── EMAILS FATURAMENTO ────────────────────────────────────────────────────────
+var _emailsCache = [];
+
+var TIPO_CONFIG = {
+  'PO':           { icon:'📋', cor:'7c3aed', bg:'f5f3ff' },
+  'GR':           { icon:'📦', cor:'0369a1', bg:'e0f2fe' },
+  'Aprovação':    { icon:'✅', cor:'15803d', bg:'dcfce7' },
+  'Ajuste':       { icon:'🔧', cor:'b45309', bg:'fef3c7' },
+  'Cancelamento': { icon:'❌', cor:'dc2626', bg:'fee2e2' },
+  'Boleto':       { icon:'💰', cor:'7c3aed', bg:'ede9fe' },
+  'Medição':      { icon:'📡', cor:'0891b2', bg:'cffafe' },
+  'Nota Fiscal':  { icon:'🧾', cor:'059669', bg:'d1fae5' },
+  'Contrato':     { icon:'📄', cor:'374151', bg:'f3f4f6' },
+  'Represado':    { icon:'⛔', cor:'dc2626', bg:'fee2e2' },
+  'Geral':        { icon:'📬', cor:'4b5563', bg:'f9fafb' }
+};
+
+function buscarEmailsCBG() {
+  if (!scriptUrl) {
+    document.getElementById('emails-lista').innerHTML = '<div style="text-align:center;padding:40px;color:var(--mu)">⚠️ Conecte a planilha para buscar e-mails.</div>';
+    return;
+  }
+  document.getElementById('emails-status').textContent = 'Buscando...';
+  document.getElementById('emails-lista').innerHTML = '<div style="text-align:center;padding:40px;color:var(--mu)">🔄 Buscando e-mails não lidos...</div>';
+
+  var url = scriptUrl + (scriptUrl.indexOf('?') >= 0 ? '&' : '?') + 'action=emails&callback=cbgEmailsCb&t=' + Date.now();
+  var s = document.createElement('script');
+  s.src = url;
+  s.onerror = function() {
+    document.getElementById('emails-status').textContent = 'Erro ao buscar';
+    document.getElementById('emails-lista').innerHTML = '<div style="text-align:center;padding:40px;color:#dc2626">❌ Erro ao buscar e-mails. Verifique o Apps Script.</div>';
+  };
+  document.head.appendChild(s);
+}
+
+window.cbgEmailsCb = function(data) {
+  if (data.erro) {
+    document.getElementById('emails-status').textContent = 'Erro: ' + data.erro;
+    document.getElementById('emails-lista').innerHTML = '<div style="text-align:center;padding:40px;color:#dc2626">❌ ' + data.erro + '</div>';
+    return;
+  }
+  _emailsCache = data.emails || [];
+  var badge = document.getElementById('nb-emails');
+  if (badge) badge.textContent = _emailsCache.length;
+  var t = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+  document.getElementById('emails-status').textContent = _emailsCache.length + ' não lidos · atualizado ' + t;
+  renderEmailsLista(_emailsCache);
+};
+
+function renderEmailsLista(emails) {
+  var lista = document.getElementById('emails-lista');
+  if (!emails || emails.length === 0) {
+    lista.innerHTML = '<div style="text-align:center;padding:40px;color:var(--mu)">✅ Nenhum e-mail crítico não lido no momento.</div>';
+    return;
+  }
+
+  var h = '';
+  emails.forEach(function(em) {
+    var cfg = TIPO_CONFIG[em.tipo] || TIPO_CONFIG['Geral'];
+    var senderName = em.sender.replace(/<.*>/, '').trim().replace(/"/g,'') || em.sender;
+    h += '<div class="card" style="margin-bottom:10px;border-left:4px solid #' + cfg.cor + '">';
+    h += '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">';
+    h += '<div style="flex:1">';
+    h += '<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">';
+    h += '<span style="background:#' + cfg.bg + ';color:#' + cfg.cor + ';font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px">' + cfg.icon + ' ' + em.tipo + '</span>';
+    if (em.viaMedicao) h += '<span style="background:#fef3c7;color:#b45309;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px">📡 Via Medição</span>';
+    h += '<span style="font-size:11px;color:var(--mu)">' + em.date + '</span>';
+    h += '</div>';
+    h += '<div style="font-weight:700;font-size:13px;color:var(--txt);margin-bottom:3px">' + em.subject + '</div>';
+    h += '<div style="font-size:11px;color:var(--mu);margin-bottom:6px">De: <strong>' + senderName + '</strong></div>';
+    h += '<div style="font-size:12px;color:var(--txt2);background:#f8fafc;border-radius:6px;padding:8px 10px;line-height:1.6;border:1px solid var(--bor)">' + em.snippet + '</div>';
+    h += '</div>';
+    h += '<a href="' + em.link + '" target="_blank" style="white-space:nowrap;padding:6px 12px;border-radius:7px;background:var(--acc);color:#fff;font-size:11px;font-weight:600;text-decoration:none;flex-shrink:0">📧 Abrir</a>';
+    h += '</div>';
+    h += '</div>';
+  });
+
+  lista.innerHTML = h;
+}
+
+function filtrarEmails(tipo, btn) {
+  // Atualiza botões
+  document.querySelectorAll('.email-filtro').forEach(function(b) {
+    b.style.background = 'var(--sur)';
+    b.style.color = 'var(--txt)';
+    b.style.borderColor = 'var(--bor)';
+  });
+  btn.style.background = 'var(--acc)';
+  btn.style.color = '#fff';
+
+  var filtrados = tipo === 'todos' ? _emailsCache : _emailsCache.filter(function(e) { return e.tipo === tipo; });
+  renderEmailsLista(filtrados);
+}
+
+// Auto-refresh emails a cada 2 minutos quando na aba de emails
+setInterval(function() {
+  var t11 = document.getElementById('t11');
+  if (t11 && t11.classList.contains('active') && scriptUrl) buscarEmailsCBG();
+}, 120000);
+// ── FIM EMAILS ────────────────────────────────────────────────────────────────
 
 
 // ── ENVIO DE E-MAIL ───────────────────────────────────────────────────────────
