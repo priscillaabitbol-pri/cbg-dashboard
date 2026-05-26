@@ -3007,6 +3007,18 @@ function carregarPlanilha() {
   });
 }
 
+function processarEmailsEmbutidos(emailData) {
+  if (!emailData) return;
+  var statusEl = document.getElementById('emails-status');
+  var t = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+  _emailsCache = (emailData.emails) || [];
+  var badge = document.getElementById('nb-emails');
+  if (badge) badge.textContent = _emailsCache.length;
+  if (statusEl) statusEl.textContent = _emailsCache.length + ' não lidos · atualizado ' + t;
+  // renderiza sempre (o painel só aparece quando a aba está ativa)
+  renderEmailsLista(_emailsCache);
+}
+
 function urlComEmails(base) {
   var sep = base.indexOf('?') >= 0 ? '&' : '?';
   return base + sep + 'incluirEmails=1';
@@ -3159,17 +3171,6 @@ function buscarEmailsCBG() {
   document.head.appendChild(s);
 }
 
-function processarEmailsEmbutidos(emailData) {
-  if (!emailData) return;
-  var statusEl = document.getElementById('emails-status');
-  var t = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
-  _emailsCache = (emailData.emails) || [];
-  var badge = document.getElementById('nb-emails');
-  if (badge) badge.textContent = _emailsCache.length;
-  if (statusEl) statusEl.textContent = _emailsCache.length + ' não lidos · atualizado ' + t;
-  // renderiza sempre (o painel só aparece quando a aba está ativa)
-  renderEmailsLista(_emailsCache);
-}
 
 window.cbgEmailsCb = function(data) {
   if (data.erro) {
