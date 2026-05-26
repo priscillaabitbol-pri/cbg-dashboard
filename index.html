@@ -6,7 +6,7 @@
 <meta http-equiv="pragma" content="no-cache">
 <!-- CBG v47 -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Conexa Billing Guardian</title>
+<title>Conexa Billing Guardian v48</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
@@ -1092,28 +1092,14 @@ var STAGE_IGNORAR     = ['980214158','1137745071','980376946'];  // Pausado, out
 
 function buscarTicketsHub() {
   var statusEl = document.getElementById('tickets-hub-status');
-  var iaEl     = document.getElementById('tickets-ia-msg');
-  var iaRadar  = document.getElementById('tickets-ia-msg-radar');
 
-  function setStatus(msg) { if (statusEl) statusEl.textContent = msg; }
-  function setIa(msg) {
-    if (iaEl) iaEl.innerHTML = msg;
-    if (iaRadar) iaRadar.innerHTML = msg;
-  }
-
-  setIa('🔄 <b>Buscando tickets em tempo real...</b>');
-
-  // Usa Apps Script como fonte principal (sem cache, sempre atualizado)
-  if (scriptUrl) {
-    // Mostra dados embutidos imediatamente como fallback enquanto busca
-    usarTicketsDemoHub();
-    buscarViaAppsScript();
-    return;
-  }
-
-  // Sem planilha: usa dados embutidos
+  // Exibe dados embutidos IMEDIATAMENTE — sem mensagem de "buscando"
   usarTicketsDemoHub();
-  setStatus('Conecte a planilha para ver tickets em tempo real');
+
+  // Tenta atualizar via Apps Script em background (silenciosamente)
+  if (scriptUrl) {
+    buscarViaAppsScript();
+  }
 }
 
 function mostrarBotaoToken() {
