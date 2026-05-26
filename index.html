@@ -3026,15 +3026,21 @@ function carregarPlanilha() {
   });
 }
 
+function urlComEmails(base) {
+  var sep = base.indexOf('?') >= 0 ? '&' : '?';
+  return base + sep + 'incluirEmails=1';
+}
+
 function refreshManual() {
   if (!scriptUrl) return;
   var btn = document.getElementById('btn-refresh');
   if (btn) { btn.textContent = '⏳'; btn.disabled = true; }
-  fetchScript(scriptUrl, function(err, data) {
+  fetchScript(urlComEmails(scriptUrl), function(err, data) {
     if (btn) { btn.textContent = '🔄'; btn.disabled = false; }
     if (!err && data) {
       var novasAbas = processarDados(data);
       if (Object.keys(novasAbas).length) aplicarDados(novasAbas);
+      if (data.__emails) processarEmailsEmbutidos(data.__emails);
     }
   });
 }
@@ -3043,10 +3049,11 @@ function iniciarAutoRefresh() {
   if (autoRefreshTimer) clearInterval(autoRefreshTimer);
   autoRefreshTimer = setInterval(function() {
     if (scriptUrl) {
-      tentarJSONP(scriptUrl, function(err, data) {
+      tentarJSONP(urlComEmails(scriptUrl), function(err, data) {
         if (!err && data) {
           var novasAbas = processarDados(data);
           if (Object.keys(novasAbas).length) aplicarDados(novasAbas);
+          if (data.__emails) processarEmailsEmbutidos(data.__emails);
         }
       });
     }
@@ -3059,13 +3066,14 @@ function tentarCarregarSalvo() {
     if (saved && saved.indexOf('script.google.com') >= 0) {
       scriptUrl = saved;
       // Usa só JSONP — XHR dá CORS com domínio Conexa
-      tentarJSONP(scriptUrl, function(err, data) {
+      tentarJSONP(urlComEmails(scriptUrl), function(err, data) {
         if (!err && data) {
           var novasAbas = processarDados(data);
           if (Object.keys(novasAbas).length) {
             aplicarDados(novasAbas);
             iniciarAutoRefresh();
           }
+          if (data.__emails) processarEmailsEmbutidos(data.__emails);
         }
       });
     }
@@ -3100,22 +3108,31 @@ function buscarEmailsCBG() {
   if (statusEl) statusEl.textContent = 'Buscando...';
   if (listaEl)  listaEl.innerHTML = '<div style="text-align:center;padding:40px;color:var(--mu)">🔄 Buscando e-mails não lidos...</div>';
 
-  var cbName = 'cbgEmailsCb_' + Date.now();
-  var url = scriptUrl + (scriptUrl.indexOf('?') >= 0 ? '&' : '?') + 'action=emails&callback=' + cbName + '&t=' + Date.now();
+  // Remove iframe anterior se existir
+  var oldFrame = document.getElementById('cbg-emails-iframe');
+  if (oldFrame) oldFrame.parentNode.removeChild(oldFrame);
 
-  console.log('[CBG Emails] Chamando:', url);
+  var url = scriptUrl + (scriptUrl.indexOf('?') >= 0 ? '&' : '?') + 'action=emails&t=' + Date.now();
 
+  var done = false;
   var timeout = setTimeout(function() {
-    delete window[cbName];
-    console.warn('[CBG Emails] Timeout — callback nunca foi chamado');
-    if (statusEl) statusEl.textContent = 'Timeout — Apps Script não respondeu';
-    if (listaEl)  listaEl.innerHTML = '<div style="text-align:center;padding:40px;color:#dc2626">⚠️ Timeout. O Apps Script demorou mais de 20s para responder.</div>';
-  }, 20000);
+    if (done) return;
+    done = true;
+    if (statusEl) statusEl.textContent = 'Timeout — tente novamente';
+    if (listaEl)  listaEl.innerHTML = '<div style="text-align:center;padding:40px;color:var(--mu)">⚠️ Apps Script demorou mais de 30s. Clique em Atualizar para tentar novamente.</div>';
+  }, 30000);
+
+  // Usa fetch com mode no-cors como fallback via iframe proxy
+  // O Apps Script retorna JSON puro quando não tem callback — lemos via iframe + postMessage não funciona cross-origin
+  // Solução: abrir em nova aba silenciosa não funciona — usar tentarJSONP com flag de retry
+  var cbName = 'cbgEmailsCb_' + Date.now();
+  var urlJsonp = scriptUrl + (scriptUrl.indexOf('?') >= 0 ? '&' : '?') + 'action=emails&callback=' + cbName + '&t=' + Date.now();
 
   window[cbName] = function(data) {
+    if (done) return;
+    done = true;
     clearTimeout(timeout);
     delete window[cbName];
-    console.log('[CBG Emails] Callback recebido! total:', data && data.total, 'emails:', data && data.emails && data.emails.length);
     if (data && data.erro) {
       if (statusEl) statusEl.textContent = 'Erro: ' + data.erro;
       if (listaEl)  listaEl.innerHTML = '<div style="text-align:center;padding:40px;color:#dc2626">❌ ' + data.erro + '</div>';
@@ -3129,17 +3146,49 @@ function buscarEmailsCBG() {
     renderEmailsLista(_emailsCache);
   };
 
+  // Tenta JSONP primeiro
   var s = document.createElement('script');
-  s.src = url;
-  s.onload = function() { console.log('[CBG Emails] Script carregado'); };
+  s.src = urlJsonp;
   s.onerror = function() {
-    clearTimeout(timeout);
+    if (done) return;
     delete window[cbName];
-    console.error('[CBG Emails] Erro ao carregar script JSONP');
-    if (statusEl) statusEl.textContent = 'Erro de conexão';
-    if (listaEl)  listaEl.innerHTML = '<div style="text-align:center;padding:40px;color:#dc2626">❌ Erro ao conectar com Apps Script.</div>';
+    // JSONP bloqueado — tenta via tentarJSONP (usa URL de redirecionamento)
+    tentarJSONP(scriptUrl + (scriptUrl.indexOf('?') >= 0 ? '&' : '?') + 'action=emails', function(err, data) {
+      if (done) return;
+      done = true;
+      clearTimeout(timeout);
+      if (err || !data) {
+        if (statusEl) statusEl.textContent = 'Erro: ' + (err || 'sem dados');
+        if (listaEl)  listaEl.innerHTML = '<div style="text-align:center;padding:40px;color:#dc2626">❌ Não foi possível carregar e-mails: ' + (err||'') + '</div>';
+        return;
+      }
+      if (data.erro) {
+        if (statusEl) statusEl.textContent = 'Erro: ' + data.erro;
+        if (listaEl)  listaEl.innerHTML = '<div style="text-align:center;padding:40px;color:#dc2626">❌ ' + data.erro + '</div>';
+        return;
+      }
+      _emailsCache = (data && data.emails) || [];
+      var badge = document.getElementById('nb-emails');
+      if (badge) badge.textContent = _emailsCache.length;
+      var t = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+      if (statusEl) statusEl.textContent = _emailsCache.length + ' não lidos · atualizado ' + t;
+      renderEmailsLista(_emailsCache);
+    });
   };
   document.head.appendChild(s);
+}
+
+function processarEmailsEmbutidos(emailData) {
+  if (!emailData) return;
+  var statusEl = document.getElementById('emails-status');
+  var t = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+  _emailsCache = (emailData.emails) || [];
+  var badge = document.getElementById('nb-emails');
+  if (badge) badge.textContent = _emailsCache.length;
+  if (statusEl) statusEl.textContent = _emailsCache.length + ' não lidos · atualizado ' + t;
+  // só renderiza se a aba de emails estiver visível
+  var tab = document.getElementById('tab-11');
+  if (tab && tab.classList.contains('active')) renderEmailsLista(_emailsCache);
 }
 
 window.cbgEmailsCb = function(data) {
