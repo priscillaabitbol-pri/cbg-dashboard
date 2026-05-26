@@ -2986,7 +2986,7 @@ function carregarPlanilha() {
   var url = document.getElementById('cfg-script-url').value.trim();
   if (!url) { setStatus('Cole o link do Apps Script primeiro.', 'err'); return; }
   setStatus('Carregando todas as abas...', 'load');
-  fetchScript(url, function(err, data) {
+  fetchScript(urlComEmails(url), function(err, data) {
     if (err) {
       setStatus('Erro: ' + err, 'err');
       return;
@@ -3000,6 +3000,7 @@ function carregarPlanilha() {
     scriptUrl = url;
     try { localStorage.setItem('cbg_script_url', url); } catch(e) {}
     aplicarDados(novasAbas);
+    if (data.__emails) processarEmailsEmbutidos(data.__emails);
     setStatus(ok + ' aba(s) carregada(s) com sucesso!', 'ok');
     iniciarAutoRefresh();
     setTimeout(fecharConfig, 1800);
